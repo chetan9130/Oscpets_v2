@@ -60,28 +60,29 @@ const Header = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
           <a
-            href="#features"
+            href="/store"
             className="text-sm font-medium text-gray-700 hover:text-osc-blue transition-colors"
           >
-            Why OSCPETS?
+            Products
           </a>
           <a
-            href="#how-it-works"
+            href="/vets"
             className="text-sm font-medium text-gray-700 hover:text-osc-blue transition-colors"
           >
-            How It Works
+            Vets
           </a>
           <a
-            href="#testimonials"
+            href="/chat"
             className="text-sm font-medium text-gray-700 hover:text-osc-blue transition-colors"
           >
-            Testimonials
+            AI Assistant
           </a>
+
           <a
-            href="#faq"
+            href="/myorders"
             className="text-sm font-medium text-gray-700 hover:text-osc-blue transition-colors"
           >
-            FAQ
+            My Orders
           </a>
           <a
             href="https://docs.google.com/forms/d/e/1FAIpQLSfvJgfxXnMjH989BrdP_4Hcbn6Af1yO152U5yPQZnFACDc57g/viewform?usp=dialog"
@@ -91,18 +92,20 @@ const Header = () => {
           >
             Join Community
           </a>
-
+          <button
+            className="btn-primary"
+            onClick={() => (window.location.href = "/createpetprofile")}
+          >
+            Create Pet Profile
+          </button>
           {user ? (
             <div className="flex items-center gap-4">
               <span className="text-sm font-medium text-gray-700">
-                Welcome, {user.firstName}!
+                <a href="/userprofile">
+                  Welcome, {user.firstName}!
+                </a>
               </span>
-              <button
-                className="bg-red-600 text-white px-3 py-1 rounded"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
+
             </div>
           ) : (
             <button
@@ -111,6 +114,7 @@ const Header = () => {
             >
               Login
             </button>
+
           )}
         </nav>
 

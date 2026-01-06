@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
+import Header from "@/components/Header";
 const API = "http://127.0.0.1:3001";
 
 interface Order {
@@ -52,7 +52,9 @@ const UserOrders = () => {
   }
 
   return (
+
     <div className="p-8 max-w-4xl mx-auto space-y-6">
+          <Header /><br /><br />
       <h1 className="text-3xl font-bold">📦 My Orders</h1>
 
       {loading ? (

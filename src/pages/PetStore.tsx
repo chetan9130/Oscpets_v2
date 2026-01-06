@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import Header from "@/components/Header";
 
 const API = "http://127.0.0.1:3001";
 
@@ -94,6 +95,8 @@ const PetStore = () => {
 
   return (
     <div className="p-8 space-y-6">
+      
+      <Header /><br /><br />
       {/* HEADER */}
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">🐾 Pet Store</h1>

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, ArrowLeft, Zap, Package } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import Header from "@/components/Header";
 
 const API = "http://127.0.0.1:3001";
 
@@ -57,6 +58,7 @@ const ProductDetails = () => {
 
   return (
     <div className="p-8 max-w-5xl mx-auto">
+          <Header /><br /><br />
       <Button variant="ghost" onClick={() => navigate(-1)}>
         <ArrowLeft className="w-4 h-4 mr-1" /> Back
       </Button>

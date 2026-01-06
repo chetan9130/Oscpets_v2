@@ -12,8 +12,8 @@ import PetStore from "./pages/PetStore";
 import AdoptionMarketplace from "./pages/AdoptionMarketplace";
 import BreedingMatch from './pages/BreedingMatch';
 import Vets from "./pages/Vets";
-import Login from './pages/Login'; 
-import Register from "./pages/Register" ;
+import Login from './pages/Login';
+import Register from "./pages/Register";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import AddAgent from "./pages/AddAgent";
@@ -22,6 +22,9 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import MyOrders from './pages/MyOrders';
 import ProductDetails from './pages/ProductDetails';
+import UserProfile from './pages/UserProfile';
+import CreatePetProfile from './pages/CreatePetProfile';
+
 const App = () => {
   const [queryClient] = useState(() => new QueryClient());
   const [darkMode, setDarkMode] = useState(false);
@@ -32,7 +35,7 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider> 
+      <TooltipProvider>
         <div className="flex flex-col min-h-screen w-full overflow-x-hidden bg-white dark:bg-gray-900 text-black dark:text-white">
           {/* <button
             onClick={() => setDarkMode(!darkMode)}
@@ -48,21 +51,24 @@ const App = () => {
               <Route path="/chat" element={<ChatbotPage />} />
               <Route path="*" element={<NotFound />} />
               {/* <Route path="/ai-assistant" element={<AIAssistant />} /> */}
-        <Route path="/grooming-vet" element={<GroomingVet />} />
-        <Route path="/store" element={<PetStore />} />
-        <Route path="/adoption-marketplace" element={<AdoptionMarketplace />} />
-        <Route path="/breeding-match" element={<BreedingMatch />} />
-        <Route path="/vets" element={<Vets />} />
-         <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="adminlogin" element={<AdminLogin />} />
-          <Route path="admindashboard" element={<AdminDashboard />} />
-          <Route path="addagent" element={<AddAgent />} />
-          <Route path="addseller" element={<AddSeller />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/myorders" element={<MyOrders />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
+              <Route path="/grooming-vet" element={<GroomingVet />} />
+              <Route path="/store" element={<PetStore />} />
+              <Route path="/adoption-marketplace" element={<AdoptionMarketplace />} />
+              <Route path="/breeding-match" element={<BreedingMatch />} />
+              <Route path="/vets" element={<Vets />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="adminlogin" element={<AdminLogin />} />
+              <Route path="admindashboard" element={<AdminDashboard />} />
+              <Route path="addagent" element={<AddAgent />} />
+              <Route path="addseller" element={<AddSeller />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/myorders" element={<MyOrders />} />
+              <Route path="/createpetprofile" element={<CreatePetProfile/>} />
+              <Route path="/product/:id" element={<ProductDetails />} />
+
+              <Route path="/userprofile" element={<UserProfile />} />
 
             </Routes>
           </BrowserRouter>

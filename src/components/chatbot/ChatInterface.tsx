@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { Link } from 'react-router-dom';
-
+import Header from '../Header';
 // Create system prompt based on selected type
 const getSystemPrompt = (type: string): string => {
   const systemPrompts: Record<string, string> = {
@@ -17,6 +17,8 @@ const getSystemPrompt = (type: string): string => {
   
   return systemPrompts[type] || systemPrompts.vet;
 };
+const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+const userName: string = storedUser?.firstName || "User";
 
 // Get topic title
 const getTopicTitle = (type: string): string => {
@@ -46,12 +48,12 @@ const ChatInterface = ({ topicId, onBackToTopics, apiKey, model }: ChatInterface
   // Set welcome message on topic selection
   useEffect(() => {
     const welcomeMessages: Record<string, string> = {
-      vet: "Hello! I'm here to help. Whether you have questions about your pet's health, common medical issues, or when to see a vet, I'm happy to assist. Just keep in mind that I'm not a substitute for professional veterinary advice. How can I help you today? 😊",
-      nutrition: "Hi there! I'm your pet nutrition advisor. What would you like to know about pet diet and food?",
-      training: "Welcome! I'm your pet training assistant. How can I help with your pet's behavior and training?"
+      vet: `Hello ${userName}! I'm here to help. Whether you have questions about your pet's health, common medical issues, or when to see a vet, I'm happy to assist. Just keep in mind that I'm not a substitute for professional veterinary advice. How can I help you today? 😊`,
+      nutrition: `Hi ${userName}! I'm your pet nutrition advisor. What would you like to know about pet diet and food?`,
+      training: `Welcome ${userName}! I'm your pet training assistant. How can I help with your pet's behavior and training?`
     };
     
-    setMessages([{ type: 'ai', content: welcomeMessages[topicId] || "Hello! How can I help you today?" }]);
+    setMessages([{ type: 'ai', content: welcomeMessages[topicId] || `Hello ${userName}! How can I help you today?` }]);
   }, [topicId]);
   
   // Auto scroll to bottom on new messages
@@ -150,6 +152,7 @@ const ChatInterface = ({ topicId, onBackToTopics, apiKey, model }: ChatInterface
   
   return (
     <div className="flex flex-col h-screen bg-gray-50">
+      
       <div className="bg-white border-b border-gray-200 p-4 flex items-center">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-2">

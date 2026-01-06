@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import TopicSelection from '@/components/chatbot/TopicSelection';
 import ChatInterface from '@/components/chatbot/ChatInterface';
 import { toast } from "@/hooks/use-toast";
+import Header from "@/components/Header";
 
 // Default model and API key
 const DEFAULT_MODEL = "arcee-ai/trinity-mini:free";
@@ -28,9 +29,14 @@ const ChatbotPage = () => {
   };
   
   return (
+
+    
     <>
+    <Header/><br /><br /><br /><br />
       <Helmet>
+        
         <title>Chat with OSCPETS AI | OSCPETS</title>
+
       </Helmet>
       
       <div className="min-h-screen bg-gray-50">

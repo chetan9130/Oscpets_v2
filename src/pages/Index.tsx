@@ -9,7 +9,7 @@ import Countdown from '@/components/Countdown';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 import ChatButton from '@/components/ChatButton';
-import PuneNotification from '@/components/PuneNotification';
+
 
 
 const Index = () => {
@@ -48,12 +48,12 @@ const Index = () => {
          <Testimonials />
         <HowItWorks />
        
-        <Countdown />
-        <FAQ />
+        
+        
       </main>
       <Footer />
       <ChatButton />
-      <PuneNotification />
+      
     </div>
   );
 };
