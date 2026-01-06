@@ -18,7 +18,10 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import AddAgent from "./pages/AddAgent";
 import AddSeller from "./pages/AddSeller";
-
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import MyOrders from './pages/MyOrders';
+import ProductDetails from './pages/ProductDetails';
 const App = () => {
   const [queryClient] = useState(() => new QueryClient());
   const [darkMode, setDarkMode] = useState(false);
@@ -56,6 +59,11 @@ const App = () => {
           <Route path="admindashboard" element={<AdminDashboard />} />
           <Route path="addagent" element={<AddAgent />} />
           <Route path="addseller" element={<AddSeller />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/myorders" element={<MyOrders />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+
             </Routes>
           </BrowserRouter>
         </div>

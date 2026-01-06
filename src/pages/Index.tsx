@@ -11,6 +11,7 @@ import Footer from '@/components/Footer';
 import ChatButton from '@/components/ChatButton';
 import PuneNotification from '@/components/PuneNotification';
 
+
 const Index = () => {
   // Smooth scroll for anchor links
   useEffect(() => {
@@ -44,8 +45,9 @@ const Index = () => {
       <main className="flex-grow">
         <Hero />
         <Features />
+         <Testimonials />
         <HowItWorks />
-        <Testimonials />
+       
         <Countdown />
         <FAQ />
       </main>

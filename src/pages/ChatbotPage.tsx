@@ -6,8 +6,8 @@ import ChatInterface from '@/components/chatbot/ChatInterface';
 import { toast } from "@/hooks/use-toast";
 
 // Default model and API key
-const DEFAULT_MODEL = "deepseek/deepseek-r1-0528";
-const DEFAULT_API_KEY = "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";
+const DEFAULT_MODEL = "arcee-ai/trinity-mini:free";
+const DEFAULT_API_KEY = "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";
 
 const ChatbotPage = () => {
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);

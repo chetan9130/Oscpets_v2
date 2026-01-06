@@ -1,104 +1,166 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { ShoppingCart, Package, Zap } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
-import { useRef, useEffect } from 'react';
-import { Separator } from '@/components/ui/separator';
+const API = "http://127.0.0.1:3001";
 
-const Testimonials = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const instagramRef = useRef<HTMLDivElement>(null);
+interface Product {
+  _id: string;
+  vendorId: string;
+  name: string;
+  description: string;
+  category: string;
+  price: number;
+  stock: number;
+  imageUrl: string;
+  qty?: number; // 🔑 for cart
+}
+
+const PetStore = () => {
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const [cart, setCart] = useState<Product[]>([]);
+
+  /* ------------------ CART STORAGE ------------------ */
 
   useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1,
-    };
-
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-fade-in');
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-    // Observe section elements
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-    
-    if (contentRef.current) {
-      observer.observe(contentRef.current);
-    }
-    
-    if (instagramRef.current) {
-      observer.observe(instagramRef.current);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
+    const saved = localStorage.getItem("cart");
+    if (saved) setCart(JSON.parse(saved));
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
+  /* ------------------ FETCH PRODUCTS ------------------ */
+
+  useEffect(() => {
+    axios.get(`${API}/products`).then(res => setProducts(res.data));
+  }, []);
+
+  /* ------------------ ADD TO CART ------------------ */
+
+  const addToCart = (product: Product) => {
+    if (product.stock <= 0) {
+      toast({ title: "Out of stock", variant: "destructive" });
+      return;
+    }
+
+    const exists = cart.find(item => item._id === product._id);
+
+    if (exists) {
+      setCart(cart.map(item =>
+        item._id === product._id
+          ? { ...item, qty: (item.qty || 1) + 1 }
+          : item
+      ));
+    } else {
+      setCart([...cart, { ...product, qty: 1 }]);
+    }
+
+    toast({ title: "Added to cart 🛒" });
+  };
+
+  /* ------------------ BUY NOW ------------------ */
+
+  const buyNow = (product: Product) => {
+    if (product.stock <= 0) {
+      toast({ title: "Out of stock", variant: "destructive" });
+      return;
+    }
+
+    const item = { ...product, qty: 1 };
+    localStorage.setItem("cart", JSON.stringify([item]));
+    navigate("/cart");
+  };
+
+  /* ------------------ UI ------------------ */
+
   return (
-    <section id="testimonials" className="section-padding bg-white py-16">
-      <div className="container-custom max-w-5xl">
-        {/* Section Header */}
-        <div 
-          ref={sectionRef} 
-          className="text-center mb-16 animated-element"
-        >
-          <div className="section-label mb-2">Testimonials</div>
-          <h2 className="heading-lg mb-4">Real Pet Parents Love OSCPETS (Coming Soon)</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            We're just getting started! Stay tuned for real reviews and stories from pet parents who'll experience OSCPETS soon.
-          </p>
-        </div>
+    <div className="p-8 space-y-6">
+      <div className="flex justify-between items-center">
+        
 
-        {/* Coming Soon Placeholder */}
-        <div 
-          ref={contentRef}
-          className="flex justify-center items-center mb-16 animated-element"
-          style={{ animationDelay: '0.2s' }}
-        >
-          <div className="text-center p-8 bg-gray-50 rounded-xl border border-gray-100 shadow-sm max-w-2xl">
-            <div className="text-6xl mb-6">🐾</div>
-            <h3 className="text-xl font-medium mb-4">Be the First to Share Your Experience!</h3>
-            <p className="text-gray-600">
-              Our community of pet parents is growing. Join our waitlist today and be among the first to experience and review OSCPETS!
-            </p>
-          </div>
-        </div>
-
-        <Separator className="mb-12" />
-
-        {/* Instagram Feed */}
-        {/* <div className="text-center mb-10 animated-element" ref={instagramRef} style={{ animationDelay: '0.4s' }}>
-          <h3 className="text-2xl font-semibold mb-8">Follow Us on Instagram</h3>
-          <p className="text-gray-600 mb-8">Stay up-to-date with our latest pet tips, offers, and adorable content! 🐶🐱</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-            {[1, 2, 3, 4, 5].map((item) => (
-              <div 
-                key={item} 
-                className="aspect-square bg-gray-100 rounded-lg overflow-hidden relative group"
-              >
-                <img 
-                  src={`https://images.unsplash.com/photo-15901520${item}4-bdd8b25e3ccf?q=80&w=300`} 
-                  alt={`Instagram post ${item}`}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-osc-blue/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <p className="text-white font-medium">#OSCPETS</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div> */}
+        {/* Cart Button */}
+        <Button variant="outline" onClick={() => navigate("/cart")}>
+          <ShoppingCart className="w-4 h-4 mr-2" />
+          Cart ({cart.reduce((sum, i) => sum + (i.qty || 1), 0)})
+        </Button>
       </div>
-    </section>
+
+      {products.length === 0 ? (
+        <div className="text-center text-muted-foreground">
+          <Package className="w-16 h-16 mx-auto mb-4" />
+          No products available
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {products.map(product => (
+            <Card key={product._id} className="overflow-hidden">
+              <div className="h-40 bg-muted flex items-center justify-center">
+                {product.imageUrl ? (
+                  <img
+                    src={`${API}/${product.imageUrl}`}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <Package className="w-10 h-10 text-muted-foreground" />
+                )}
+              </div>
+
+              <div className="p-4 space-y-2">
+                <h3 className="font-semibold line-clamp-1">
+                  {product.name}
+                </h3>
+
+                <Badge>{product.category}</Badge>
+
+                <p className="text-sm text-muted-foreground line-clamp-2">
+                  {product.description}
+                </p>
+
+                <div className="flex justify-between items-center">
+                  <span className="font-bold">₹{product.price}</span>
+                </div>
+
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="flex-1"
+                    onClick={() => addToCart(product)}
+                  >
+                    <ShoppingCart className="w-4 h-4 mr-1" />
+                    Add
+                  </Button>
+
+                  <Button
+                    size="sm"
+                    className="flex-1"
+                    onClick={() => buyNow(product)}
+                  >
+                    <Zap className="w-4 h-4 mr-1" />
+                    Buy
+                  </Button>
+                </div>
+
+                <p className="text-xs text-muted-foreground">
+                  Stock: {product.stock}
+                </p>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 
-export default Testimonials;
+export default PetStore;
